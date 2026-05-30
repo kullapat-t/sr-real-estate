@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sureephak Realestate · Premium Properties Bangkok</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800;900&family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#FAF8F5', beige: '#F0EBE3', sand: '#E5DDD0',
+            charcoal: '#1A1A1A', sage: '#8B9E8A', 'sage-dark': '#697B68',
+          },
+          fontFamily: {
+            display: ['Montserrat', 'sans-serif'],
+            body: ['Sarabun', 'Montserrat', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: #FAF8F5; color: #1A1A1A;
+      font-family: 'Sarabun', 'Montserrat', sans-serif; font-weight: 300;
+      -webkit-font-smoothing: antialiased; text-wrap: pretty;
+    }
+
+    /* NAV */
+    .nav-link {
+      font-family: 'Sarabun', sans-serif; font-size: 0.72rem; font-weight: 400;
+      letter-spacing: 0.2em; text-transform: uppercase; text-decoration: none;
+      position: relative; transition: color 0.3s;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 1px; background: #8B9E8A; transition: width 0.35s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+    .nav-dark { color: #1A1A1A; } .nav-light { color: rgba(255,255,255,0.8); }
+    .nav-dark:hover { color: #8B9E8A; } .nav-light:hover { color: white; }
+
+    /* BUTTONS */
+    .btn-sage {
+      display: inline-block; background: #8B9E8A; color: white;
+      font-family: 'Sarabun', sans-serif; font-size: 0.67rem; font-weight: 400;
+      letter-spacing: 0.24em; text-transform: uppercase; padding: 11px 26px;
+      border: 1px solid #8B9E8A; cursor: pointer; text-decoration: none;
+      transition: background 0.32s, border-color 0.32s; white-space: nowrap;
+    }
+    .btn-sage:hover { background: #697B68; border-color: #697B68; }
+
+    .btn-outline-light {
+      display: inline-block; background: transparent; color: white;
+      font-family: 'Sarabun', sans-serif; font-size: 0.67rem; font-weight: 400;
+      letter-spacing: 0.24em; text-transform: uppercase; padding: 11px 26px;
+      border: 1px solid rgba(255,255,255,0.45); cursor: pointer; text-decoration: none;
+      transition: all 0.32s;
+    }
+    .btn-outline-light:hover { background: white; color: #1A1A1A; border-color: white; }
+
+    .btn-white-solid {
+      display: inline-block; background: white; color: #1A1A1A;
+      font-family: 'Sarabun', sans-serif; font-size: 0.67rem; font-weight: 500;
+      letter-spacing: 0.24em; text-transform: uppercase; padding: 13px 34px;
+      border: 1px solid white; cursor: pointer; text-decoration: none; transition: all 0.32s;
+    }
+    .btn-white-solid:hover { background: #8B9E8A; border-color: #8B9E8A; color: white; }
+
+    .btn-dark {
+      display: inline-block; background: #1A1A1A; color: white;
+      font-family: 'Sarabun', sans-serif; font-size: 0.67rem; font-weight: 400;
+      letter-spacing: 0.24em; text-transform: uppercase; padding: 13px 34px;
+      border: 1px solid #1A1A1A; cursor: pointer; text-decoration: none; transition: all 0.32s;
+    }
+    .btn-dark:hover { background: #8B9E8A; border-color: #8B9E8A; }
+
+    /* SECTION LABEL */
+    .section-label {
+      display: flex; align-items: center; gap: 12px;
+      font-family: 'Sarabun', sans-serif; font-size: 0.6rem; font-weight: 400;
+      letter-spacing: 0.4em; text-transform: uppercase; color: #8B9E8A; margin-bottom: 20px;
+    }
+    .section-label::before {
+      content: ''; display: block; width: 28px; height: 1px;
+      background: #8B9E8A; flex-shrink: 0;
+    }
+
+    /* HERO */
+    @keyframes kenBurns {
+      from { transform: scale(1) translate(0,0); }
+      to   { transform: scale(1.1) translate(-2%,-1%); }
+    }
+    .hero-bg { animation: kenBurns 24s ease-in-out infinite alternate; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-animate { opacity: 0; animation: fadeUp 0.95s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
+    .hero-animate-1 { animation-delay: 0.3s; }
+    .hero-animate-2 { animation-delay: 0.6s; }
+    .hero-animate-3 { animation-delay: 0.9s; }
+    .hero-animate-4 { animation-delay: 1.2s; }
+
+    @keyframes scrollPulse {
+      0%,100% { opacity: 0.12; transform: scaleY(0.6); }
+      50%      { opacity: 0.55; transform: scaleY(1); }
+    }
+    .scroll-line {
+      width: 1px; height: 52px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.6), transparent);
+      transform-origin: top; animation: scrollPulse 2.4s ease-in-out infinite;
+    }
+
+    /* SCROLL REVEAL */
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.9s ease, transform 0.9s ease; }
+    .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+    /* CARDS */
+    .property-card { transition: transform 0.4s ease, box-shadow 0.4s ease; }
+    .property-card:hover { transform: translateY(-7px); box-shadow: 0 22px 55px rgba(0,0,0,0.11); }
+    .card-img { transition: transform 0.7s ease; }
+    .property-card:hover .card-img { transform: scale(1.05); }
+
+    /* CONTACT ITEMS */
+    .contact-item {
+      display: flex; align-items: center; gap: 20px; padding: 20px 24px;
+      border: 1px solid rgba(255,255,255,0.2); text-decoration: none;
+      transition: border-color 0.35s, background 0.35s;
+    }
+    .contact-item:hover { border-color: rgba(139,158,138,0.7); background: rgba(255,255,255,0.06); }
+    .ci-icon { color: rgba(255,255,255,0.7); flex-shrink: 0; transition: color 0.3s; }
+    .contact-item:hover .ci-icon { color: #8B9E8A; }
+    .ci-arrow { color: rgba(255,255,255,0.4); margin-left: auto; flex-shrink: 0; transition: color 0.3s, transform 0.3s; }
+    .contact-item:hover .ci-arrow { color: #8B9E8A; transform: translateX(4px); }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    // ── Scroll Reveal Hook ──────────────────────────────────────
+    const useReveal = () => {
+      const ref = useRef(null);
+      useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+        if (!('IntersectionObserver' in window)) { el.classList.add('in-view'); return; }
+        const obs = new IntersectionObserver(
+          ([e]) => { if (e.isIntersecting) { el.classList.add('in-view'); obs.unobserve(el); } },
+          { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+        );
+        obs.observe(el);
+        return () => obs.disconnect();
+      }, []);
+      return ref;
+    };
+
+    // ── Icons ───────────────────────────────────────────────────
+    const IcPhone  = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42a2 2 0 0 1 1.99-2.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l.87-.87a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>;
+    const IcMsg    = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>;
+    const IcMail   = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>;
+    const IcIg     = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>;
+    const IcArrow  = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>;
+    const IcStar   = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8B9E8A" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>;
+    const IcSearch = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8B9E8A" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>;
+    const IcHeart  = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8B9E8A" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>;
+
+    // ── NAVBAR ──────────────────────────────────────────────────
+    const Navbar = () => {
+      const [scrolled, setScrolled] = useState(false);
+      const [open, setOpen] = useState(false);
+      useEffect(() => {
+        const fn = () => setScrolled(window.scrollY > 70);
+        window.addEventListener('scroll', fn, { passive: true });
+        return () => window.removeEventListener('scroll', fn);
+      }, []);
+      const links = [
+        { href: '#properties', label: 'Properties' },
+        { href: '#about',      label: 'About'      },
+        { href: '#why-us',     label: 'Why Us'     },
+        { href: '#contact',    label: 'Contact'    },
+      ];
+      return (
+        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'bg-[#FAF8F5]/96 backdrop-blur-md border-b border-[#E5DDD0]/70' : ''}`}>
+          <div className="max-w-[1440px] mx-auto px-6 lg:px-16 h-[74px] flex items-center justify-between">
+            <a href="#" className="flex flex-col leading-none select-none">
+              <span className={`font-display font-black text-[1.08rem] tracking-[0.22em] transition-colors duration-300 ${scrolled ? 'text-[#1A1A1A]' : 'text-white'}`}>SUREEPHAK</span>
+              <span className={`font-body font-light text-[0.5rem] tracking-[0.46em] mt-0.5 transition-colors duration-300 ${scrolled ? 'text-[#8B9E8A]' : 'text-white/40'}`}>REALESTATE</span>
+            </a>
+            <div className="hidden md:flex items-center gap-10">
+              {links.map(l => (
+                <a key={l.href} href={l.href} className={`nav-link ${scrolled ? 'nav-dark' : 'nav-light'}`}>{l.label}</a>
+              ))}
+              <a href="#contact" className="btn-sage ml-2">Book Consultation</a>
+            </div>
+            <button className="md:hidden flex flex-col gap-[6px] p-1 cursor-pointer bg-transparent border-0" onClick={() => setOpen(o => !o)} aria-label="Menu">
+              <span className={`block w-6 h-px transition-all duration-300 ${scrolled ? 'bg-[#1A1A1A]' : 'bg-white'} ${open ? 'rotate-45 translate-y-[7px]' : ''}`} />
+              <span className={`block h-px transition-all duration-300 ${scrolled ? 'bg-[#1A1A1A]' : 'bg-white'} ${open ? 'opacity-0 w-0' : 'w-4'}`} />
+              <span className={`block w-6 h-px transition-all duration-300 ${scrolled ? 'bg-[#1A1A1A]' : 'bg-white'} ${open ? '-rotate-45 -translate-y-[7px]' : ''}`} />
+            </button>
+          </div>
+          <div className={`md:hidden overflow-hidden transition-all duration-300 bg-[#FAF8F5] ${open ? 'max-h-72 border-b border-[#E5DDD0]' : 'max-h-0'}`}>
+            <div className="px-6 py-8 flex flex-col gap-5">
+              {links.map(l => (
+                <a key={l.href} href={l.href} onClick={() => setOpen(false)}
+                   className="font-body font-light text-xs tracking-[0.26em] text-[#1A1A1A] uppercase hover:text-[#8B9E8A] transition-colors no-underline">
+                  {l.label}
+                </a>
+              ))}
+              <a href="#contact" onClick={() => setOpen(false)} className="btn-sage w-fit mt-3">Book Consultation</a>
+            </div>
+          </div>
+        </nav>
+      );
+    };
+
+    // ── HERO ────────────────────────────────────────────────────
+    const Hero = () => (
+      <section data-screen-label="Hero" className="relative min-h-screen flex items-end overflow-hidden">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="hero-bg absolute inset-[-6%] bg-cover bg-center bg-no-repeat"
+               style={{ backgroundImage: "url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1920&q=80')" }} />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/38 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/28 to-transparent" />
+        <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 lg:px-16 pb-24 lg:pb-36">
+          <div className="max-w-5xl">
+            <p className="section-label hero-animate hero-animate-1" style={{ color:'rgba(139,158,138,0.88)', marginBottom:28 }}>
+              SUREEPHAK REALESTATE &nbsp;·&nbsp; อสังหาริมทรัพย์ระดับพรีเมียม
+            </p>
+            <h1 className="font-display font-black text-white uppercase hero-animate hero-animate-2"
+                style={{ fontSize:'clamp(3.6rem,9.5vw,8rem)', lineHeight:0.88, letterSpacing:'-0.01em' }}>
+              FIND YOUR<br />SPACE
+            </h1>
+            <p className="font-display font-light text-white/48 uppercase tracking-[0.22em] mt-5 hero-animate hero-animate-2"
+               style={{ fontSize:'clamp(0.72rem,1.8vw,1.08rem)' }}>
+              CRAFTED FOR MODERN LIVING
+            </p>
+            <div className="h-px w-10 bg-[#8B9E8A]/60 my-8 hero-animate hero-animate-3" />
+            <p className="font-body font-light text-white/65 max-w-lg hero-animate hero-animate-3"
+               style={{ fontSize:'clamp(0.9rem,1.6vw,1.04rem)', lineHeight:1.95 }}>
+              Boutique real estate agency specializing in premium homes, condos, and investment properties.
+            </p>
+            <p className="font-body font-light text-white/32 text-sm max-w-lg mt-2 leading-relaxed hero-animate hero-animate-3">
+              เอเจนซี่อสังหาริมทรัพย์ระดับบูทีค เชี่ยวชาญในบ้านหรู คอนโดพรีเมียม และอสังหาริมทรัพย์เพื่อการลงทุน
+            </p>
+            <div className="flex flex-wrap gap-4 mt-12 hero-animate hero-animate-4">
+              <a href="#properties" className="btn-white-solid">VIEW PROPERTIES</a>
+              <a href="#contact"    className="btn-outline-light">CONTACT US</a>
+            </div>
+          </div>
+        </div>
+        <div className="absolute bottom-10 right-8 lg:right-14 flex flex-col items-center gap-3 hero-animate hero-animate-4">
+          <div className="scroll-line" />
+          <span className="font-body text-[0.46rem] text-white/28 tracking-[0.48em] uppercase"
+                style={{ writingMode:'vertical-rl', transform:'rotate(180deg)' }}>SCROLL</span>
+        </div>
+      </section>
+    );
+
+    // ── ABOUT ───────────────────────────────────────────────────
+    const About = () => {
+      const imgRef  = useReveal();
+      const textRef = useReveal();
+      const features = [
+        { en:'Luxury Properties',    th:'อสังหาริมทรัพย์หรูระดับพรีเมียม',    desc:"Curated selection of Bangkok's finest homes and condominiums in the most sought-after locations." },
+        { en:'Investment Consulting', th:'ที่ปรึกษาด้านการลงทุนอสังหาฯ',       desc:'Strategic guidance tailored to your financial goals and long-term lifestyle aspirations.' },
+        { en:'Personalized Service',  th:'บริการส่วนตัวระดับสูงสุด',            desc:'White-glove concierge care from the first viewing to final signing and beyond.' },
+      ];
+      return (
+        <section id="about" data-screen-label="About" className="bg-[#FAF8F5] py-28 lg:py-44">
+          <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
+            <div className="grid lg:grid-cols-2 gap-16 lg:gap-32 items-center">
+              <div ref={imgRef} className="reveal relative">
+                <div className="overflow-hidden" style={{ aspectRatio:'4/5', backgroundColor:'#E5DDD0' }}>
+                  <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=80"
+                       alt="Luxury interior" className="w-full h-full object-cover transition-transform duration-[7s] hover:scale-105" />
+                </div>
+                <div className="absolute -bottom-5 -right-5 w-36 h-36 border border-[#8B9E8A]/22 hidden lg:block" style={{ zIndex:-1 }} />
+              </div>
+              <div ref={textRef} className="reveal">
+                <div className="section-label">About Us · เกี่ยวกับเรา</div>
+                <h2 className="font-display font-black text-[#1A1A1A] uppercase"
+                    style={{ fontSize:'clamp(2rem,4vw,3rem)', lineHeight:0.9, letterSpacing:'-0.01em' }}>
+                  WE REDEFINE<br />LUXURY LIVING
+                </h2>
+                <div className="h-px w-10 bg-[#8B9E8A] mt-8 mb-7" />
+                <p className="font-body font-light text-[#6B6B6B] leading-[1.95] mb-2" style={{ fontSize:'1.04rem' }}>
+                  Sureephak Realestate is a boutique agency dedicated to connecting discerning clients with exceptional properties — combining deep market expertise with refined personal care.
+                </p>
+                <p className="font-body font-light text-[#6B6B6B]/48 text-sm leading-[1.95] mb-12">
+                  สุรีพักอสังหาริมทรัพย์ คือเอเจนซี่ระดับบูทีค มุ่งมั่นในการนำเสนออสังหาริมทรัพย์คุณภาพสูง ให้แก่ลูกค้าที่ต้องการความพิเศษ ด้วยความเชี่ยวชาญและความใส่ใจในทุกรายละเอียด
+                </p>
+                <div className="flex flex-col gap-8">
+                  {features.map((f, i) => (
+                    <div key={i} className="flex gap-5 items-start group cursor-default">
+                      <div className="w-px self-stretch bg-[#E5DDD0] group-hover:bg-[#8B9E8A] transition-colors duration-500 flex-shrink-0 mt-1" />
+                      <div>
+                        <h3 className="font-display font-bold text-[#1A1A1A] text-[0.78rem] tracking-[0.15em] uppercase">{f.en}</h3>
+                        <p className="font-body text-[0.58rem] text-[#8B9E8A] tracking-[0.28em] mt-0.5 mb-2">{f.th}</p>
+                        <p className="font-body font-light text-[#6B6B6B] text-sm leading-relaxed">{f.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // ── PROPERTIES ──────────────────────────────────────────────
+    const PROPS = [
+      { name:'The Residences at Sathorn', nameTh:'เดอะ เรสซิเดนซ์ แอท สาทร',    location:'Sathorn, Bangkok',    price:'฿45,000,000', beds:3, baths:3, sqm:285, tag:'FEATURED',  img:'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=800&q=80' },
+      { name:'Silom Grand Residence',      nameTh:'สีลม แกรนด์ เรสซิเดนซ์',       location:'Silom, Bangkok',      price:'฿28,500,000', beds:2, baths:2, sqm:180, tag:'NEW',       img:'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80' },
+      { name:'Sukhumvit Sky Penthouse',    nameTh:'สุขุมวิท สกาย เพนท์เฮาส์',     location:'Sukhumvit, Bangkok',  price:'฿72,000,000', beds:4, baths:4, sqm:420, tag:'EXCLUSIVE', img:'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80' },
+    ];
+
+    const PropCard = ({ p }) => (
+      <div className="property-card bg-white flex flex-col" style={{ boxShadow:'0 2px 20px rgba(0,0,0,0.05)' }}>
+        <div className="relative overflow-hidden" style={{ aspectRatio:'3/2', backgroundColor:'#E5DDD0' }}>
+          <img src={p.img} alt={p.name} className="card-img w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+          <span className="absolute top-4 left-4 font-body text-[0.57rem] tracking-[0.25em] bg-[#8B9E8A] text-white px-3 py-1.5">{p.tag}</span>
+        </div>
+        <div className="p-7 flex flex-col flex-1">
+          <p className="font-body text-[0.58rem] tracking-[0.28em] text-[#8B9E8A] uppercase mb-2">{p.location}</p>
+          <h3 className="font-display font-bold text-[#1A1A1A] leading-tight mb-1" style={{ fontSize:'1.08rem' }}>{p.name}</h3>
+          <p className="font-body font-light text-[#6B6B6B]/50 text-xs mb-5">{p.nameTh}</p>
+          <div className="h-px bg-[#F0EBE3] mb-5" />
+          <div className="flex items-end justify-between mt-auto">
+            <span className="font-display font-black text-[#1A1A1A]" style={{ fontSize:'1.28rem' }}>{p.price}</span>
+            <div className="flex gap-2 font-body font-light text-[#6B6B6B] text-xs items-center">
+              <span>{p.beds} bd</span><span className="text-[#E5DDD0]">·</span>
+              <span>{p.baths} ba</span><span className="text-[#E5DDD0]">·</span>
+              <span>{p.sqm} m²</span>
+            </div>
+          </div>
+          <a href="#contact" className="btn-dark text-center mt-6 block">View Property</a>
+        </div>
+      </div>
+    );
+
+    const Properties = () => {
+      const headRef  = useReveal();
+      const cardsRef = useReveal();
+      return (
+        <section id="properties" data-screen-label="Properties" className="bg-[#F0EBE3] py-28 lg:py-44">
+          <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
+            <div ref={headRef} className="reveal flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-14 lg:mb-20">
+              <div>
+                <div className="section-label">Featured Properties · อสังหาริมทรัพย์แนะนำ</div>
+                <h2 className="font-display font-black text-[#1A1A1A] uppercase"
+                    style={{ fontSize:'clamp(2rem,4vw,3rem)', lineHeight:0.9 }}>
+                  PREMIUM<br />SELECTIONS
+                </h2>
+              </div>
+              <a href="#contact" className="btn-dark w-fit flex-shrink-0">View All Properties</a>
+            </div>
+            <div ref={cardsRef} className="reveal grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+              {PROPS.map((p, i) => <PropCard key={i} p={p} />)}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // ── WHY CHOOSE US ───────────────────────────────────────────
+    const WhyItem = ({ icon, en, th, desc }) => {
+      const ref = useReveal();
+      return (
+        <div ref={ref} className="reveal flex flex-col items-center text-center">
+          <div className="w-[62px] h-[62px] rounded-full border border-[#8B9E8A]/30 flex items-center justify-center mb-7
+                          transition-all duration-400 hover:border-[#8B9E8A] hover:bg-[#8B9E8A]/10 cursor-default">
+            {icon}
+          </div>
+          <h3 className="font-display font-bold text-[#1A1A1A] text-[0.8rem] tracking-[0.15em] uppercase mb-2">{en}</h3>
+          <p className="font-body text-[0.58rem] text-[#8B9E8A] tracking-[0.28em] mb-5">{th}</p>
+          <p className="font-body font-light text-[#6B6B6B] text-sm leading-relaxed max-w-[260px]">{desc}</p>
+        </div>
+      );
+    };
+
+    const WhyUs = () => {
+      const headRef  = useReveal();
+      const statsRef = useReveal();
+      const items = [
+        { icon:<IcStar />,   en:'Trusted Expertise',     th:'ความเชี่ยวชาญที่ไว้วางใจได้',          desc:"Years of experience navigating Bangkok's luxury property market with precision and integrity." },
+        { icon:<IcSearch />, en:'Curated Listings',      th:'คัดสรรอสังหาริมทรัพย์อย่างพิถีพิถัน', desc:'Every property is personally vetted for quality, location, and investment potential.' },
+        { icon:<IcHeart />,  en:'Client-First Approach', th:'ลูกค้าคือหัวใจของเรา',                  desc:'Your vision is our mission. We listen, advise, and act with your best interests always in mind.' },
+      ];
+      const stats = [
+        { num:'200+', label:'Properties Sold',     labelTh:'อสังหาฯ ที่ขายแล้ว'    },
+        { num:'98%',  label:'Client Satisfaction', labelTh:'ความพึงพอใจของลูกค้า' },
+        { num:'10+',  label:'Years Experience',    labelTh:'ปีแห่งประสบการณ์'      },
+      ];
+      return (
+        <section id="why-us" data-screen-label="Why Us" className="bg-[#FAF8F5] py-28 lg:py-44">
+          <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
+            <div ref={headRef} className="reveal text-center mb-20 lg:mb-28">
+              <div className="section-label justify-center">Why Choose Us · ทำไมต้องเลือกเรา</div>
+              <h2 className="font-display font-black text-[#1A1A1A] uppercase"
+                  style={{ fontSize:'clamp(2rem,4vw,3rem)', lineHeight:0.9 }}>
+                BEYOND EXPECTATIONS
+              </h2>
+            </div>
+            <div className="grid md:grid-cols-3 gap-14 lg:gap-20">
+              {items.map((item, i) => <WhyItem key={i} {...item} />)}
+            </div>
+            <div ref={statsRef} className="reveal grid grid-cols-3 gap-px bg-[#E5DDD0] mt-24 lg:mt-36">
+              {stats.map((s, i) => (
+                <div key={i} className="bg-[#FAF8F5] py-10 px-4 text-center">
+                  <div className="font-display font-black text-[#8B9E8A]" style={{ fontSize:'clamp(1.8rem,4vw,2.8rem)' }}>{s.num}</div>
+                  <div className="font-body font-light text-[#1A1A1A] text-[0.7rem] tracking-[0.14em] uppercase mt-2">{s.label}</div>
+                  <div className="font-body font-light text-[#6B6B6B]/45 text-[0.6rem] mt-1">{s.labelTh}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // ── CONTACT ─────────────────────────────────────────────────
+    const Contact = () => {
+      const lRef = useReveal();
+      const rRef = useReveal();
+      const contacts = [
+        { label:'Phone',     labelTh:'โทรศัพท์',  value:'095-882-3695',                 href:'tel:0958823695',                            icon:<IcPhone /> },
+        { label:'LINE',      labelTh:'ไลน์',        value:'charming89',                   href:'https://line.me/R/ti/p/charming89',          icon:<IcMsg />   },
+        { label:'Email',     labelTh:'อีเมล',       value:'info@sureephakrealestate.com', href:'mailto:info@sureephakrealestate.com',        icon:<IcMail />  },
+        { label:'Instagram', labelTh:'อินสตาแกรม', value:'@sureephakrealestate',          href:'https://instagram.com/sureephakrealestate', icon:<IcIg />    },
+      ];
+      return (
+        <>
+          <section id="contact" data-screen-label="Contact" className="bg-[#1A1A1A] py-28 lg:py-44">
+            <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
+              <div className="grid lg:grid-cols-2 gap-20 lg:gap-44 items-center">
+                <div ref={lRef} className="reveal">
+                  <div className="section-label" style={{ color:'#8B9E8A' }}>Get In Touch · ติดต่อเรา</div>
+                  <h2 className="font-display font-black text-white uppercase"
+                      style={{ fontSize:'clamp(2.2rem,4.5vw,3.8rem)', lineHeight:0.88 }}>
+                    LET'S FIND<br />YOUR DREAM<br />PROPERTY
+                  </h2>
+                  <div className="h-px w-10 bg-[#8B9E8A]/45 my-8" />
+                  <p className="font-body font-light text-white/80 leading-[1.95]" style={{ fontSize:'1.04rem' }}>
+                    Ready to take the next step? Reach out through any channel below and our team will respond within 24 hours.
+                  </p>
+                  <p className="font-body font-light text-white/52 text-sm leading-[1.95] mt-2">
+                    พร้อมก้าวสู่การเป็นเจ้าของอสังหาริมทรัพย์ในฝัน? ติดต่อเราผ่านช่องทางด้านล่าง ทีมงานจะติดต่อกลับภายใน 24 ชั่วโมง
+                  </p>
+                  <a href="tel:0958823695" className="btn-sage inline-block mt-12">
+                    Schedule a Consultation · นัดหมายปรึกษา
+                  </a>
+                </div>
+                <div ref={rRef} className="reveal flex flex-col gap-3">
+                  {contacts.map((c, i) => (
+                    <a key={i} href={c.href} target="_blank" rel="noopener noreferrer" className="contact-item">
+                      <span className="ci-icon">{c.icon}</span>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-body text-[0.57rem] tracking-[0.34em] text-white/55 uppercase mb-1">{c.label} · {c.labelTh}</p>
+                        <p className="font-body font-light text-white text-sm">{c.value}</p>
+                      </div>
+                      <span className="ci-arrow"><IcArrow /></span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <footer className="bg-[#111111] py-8">
+            <div className="max-w-[1440px] mx-auto px-6 lg:px-16 flex flex-col md:flex-row items-center justify-between gap-5">
+              <div className="flex flex-col leading-none">
+                <span className="font-display font-black text-white tracking-[0.22em] text-[0.88rem]">SUREEPHAK</span>
+                <span className="font-body font-light text-[#8B9E8A] text-[0.48rem] tracking-[0.48em] mt-0.5">REALESTATE</span>
+              </div>
+              <p className="font-body font-light text-white/42 text-xs tracking-wider text-center">
+                © 2026 Sureephak Realestate. All rights reserved.
+              </p>
+              <div className="flex gap-7">
+                {[['Properties','#properties'],['About','#about'],['Contact','#contact']].map(([l,h]) => (
+                  <a key={l} href={h} className="font-body text-[0.6rem] tracking-[0.22em] text-white/45 uppercase hover:text-white transition-colors no-underline">{l}</a>
+                ))}
+              </div>
+            </div>
+          </footer>
+        </>
+      );
+    };
+
+    // ── APP ─────────────────────────────────────────────────────
+    const App = () => (
+      <div>
+        <Navbar />
+        <Hero />
+        <About />
+        <Properties />
+        <WhyUs />
+        <Contact />
+      </div>
+    );
+
+    ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+  </script>
+</body>
+</html>
