@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import useReveal from '../hooks/useReveal';
 import { IcPhone, IcMsg, IcMail, IcIg, IcArrow } from './Icons';
 
